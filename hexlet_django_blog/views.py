@@ -1,11 +1,13 @@
-from django.shortcuts import render
+from django.views.generic import TemplateView
 
 
-def index(request):
-    return render(request, 'index.html', context={
-        'who': 'World',
-    })
+class IndexView(TemplateView):
+    template_name = 'index.html'
+
+    def get_context_data(self, **kwargs):
+        return {'who': 'World'}
 
 
-def about(request):
-    return render(request, 'about.html')
+
+class AboutView(TemplateView):
+    template_name = 'about.html'
