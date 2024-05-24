@@ -6,3 +6,7 @@ test:
 
 console:
 	python3 manage.py shell_plus --ipython
+
+migrate:
+	python manage.py migrate
+
