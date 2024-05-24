@@ -19,9 +19,10 @@ class ArticleListView(View):
 class ArticleDetailView(View):
     template_name = 'articles/article_detail.html'
 
-    def get(self, request, article_id):
+    def get(self, request, article_id, tags):
         article = Article.objects.get(id=article_id)
         context = {
             'article': article,
+            'tags': tags,
         }
         return render(request, self.template_name, context)
