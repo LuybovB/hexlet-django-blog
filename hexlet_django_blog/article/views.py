@@ -17,7 +17,7 @@ class ArticleListView(View):
 
 
 class ArticleDetailView(View):
-    template_name = 'articles/detail.html'
+    template_name = 'articles/article_detail.html'
 
     def get(self, request, article_id):
         article = Article.objects.get(id=article_id)
