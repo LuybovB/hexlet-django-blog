@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from .models import Article
-from django.db.models import Q
+from .forms import ArticleForm
+
 
 class ArticleListView(View):
     template_name = 'articles/index.html'
@@ -25,6 +26,7 @@ class ArticleListView(View):
         }
         return render(request, self.template_name, context)
 
+
 class ArticleDetailView(View):
     template_name = 'articles/article_detail.html'
 
@@ -35,4 +37,19 @@ class ArticleDetailView(View):
             'tags': tags,
         }
         return render(request, self.template_name, context)
+
+
+class ArticleFormEditView(View):
+    def get(self, request, article_id):
+        article = get_object_or_404(Article, id=article_id)
+        form = ArticleForm(instance=article)
+        return render(request, 'articles/update.html', {'form': form, 'article_id': article_id})
+
+    def post(self, request, article_id):
+        article = Article.objects.get(id=article_id)
+        form = ArticleForm(request.POST, instance=article)
+        if form.is_valid():
+            form.save()
+            return redirect('article_list')
+        return render(request, 'articles/update.html', {'form': form, 'article_id': article_id})
 
